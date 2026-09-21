@@ -12,13 +12,16 @@ import "CoreLibs/ui"
 local pd <const> = playdate
 local gfx <const> = playdate.graphics
 
+local gravity = 0.5
+
 -- Defining player variables
 local playerSize = 10
-local playerVelocity = 3
+local playerVelocityY = 3
 local playerX, playerY = 200, 30
 
 -- Platform
 local platformY = 120
+local platformSizeY = 10
 local platformMin = 30
 local platformMax = 210
 
@@ -52,6 +55,16 @@ local function ring(value, min, max)
 	return min + (value - min) % (max - min)
 end
 
+local function clamp(value, min, max)
+    if (value < min) then
+        return min
+    end
+    if (max < value) then
+        return max
+    end
+    return value
+end
+
 -- (0,1 - 179,180,181 - 359,0,1) -> (0,1 - 179,180,179 - 1,0,1)
 local function crankYVal(crankVal)
     if (crankVal <= 180) then
@@ -73,7 +86,14 @@ function playdate.update()
 
         platformY = platformMin + crankYVal(crankPosition)
 
-        playerY += 1
+        playerVelocityY += gravity
+
+        playerY += playerVelocityY
+        local newPlayerY = clamp(playerY, 0, platformY-platformSizeY-playerSize)
+        if (newPlayerY ~= playerY) then
+            playerVelocityY = 0
+        end
+        playerY = newPlayerY
 
         --local xVelocity = math.cos(math.rad(crankPosition)) * playerVelocity
         --local yVelocity = math.sin(math.rad(crankPosition)) * playerVelocity
