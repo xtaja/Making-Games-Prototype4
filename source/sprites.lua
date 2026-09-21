@@ -28,10 +28,21 @@ function SetPlayerImage ()
 end
 
 function SetPlatformImage ()
-    local PlatformImage =gfx.image.new(150,15)
+    local PlatformImage =gfx.image.new(75,15)
     gfx.pushContext(PlatformImage)
         gfx.setColor(gfx.kColorBlack)
-        gfx.fillRoundRect(0,0,150,15,3)
+        gfx.fillRoundRect(0,0,75,15,3)
     gfx.popContext()
     return PlatformImage
+end
+
+function SetObstacleImage(minWidth, minHeight, maxWidth, maxHeight)
+    local width = math.random(minWidth, maxWidth)
+    local height = math.random(minHeight, maxHeight)
+    local ObstacleImage = gfx.image.new(width, height)
+    gfx.pushContext(ObstacleImage)
+        gfx.setColor(gfx.kColorBlack)
+        gfx.fillRoundRect(0,0,width,height,3)
+    gfx.popContext()
+    return ObstacleImage, width, height
 end
