@@ -20,6 +20,7 @@ local gravity = 0.5
 local playerSize = 10
 local playerVelocityY = 3
 local playerX, playerY = 200, 30
+local maxPlayerVelocityY = 20
 
 -- Platform
 local platformY = 120
@@ -37,7 +38,7 @@ local function playerUpdate()
     local crankPosition = pd.getCrankPosition()
 
     platformY = platformMin + CrankYVal(crankPosition)
-    local platformVelocityY = prevPlatformY - platformY
+    --local platformVelocityY = platformY - prevPlatformY
     
     playerVelocityY += gravity
     
@@ -46,10 +47,14 @@ local function playerUpdate()
     local maxPlayerPos = platformY-platformSizeY-playerSize
     
     if (maxPlayerPos < playerY) then
-        print(platformVelocityY)
+        local newVelocity = maxPlayerPos - playerY
         playerY = maxPlayerPos
-        playerVelocityY = platformVelocityY * 10
+        --print(newVelocity)
+        --playerVelocityY = newVelocity
+        playerVelocityY = Clamp(newVelocity, -maxPlayerVelocityY, 0)
     end
+
+    --playerVelocityY = Clamp(playerVelocityY, )
 
     prevPlatformY = platformY
 end
