@@ -15,7 +15,12 @@ local gfx <const> = playdate.graphics
 -- Defining player variables
 local playerSize = 10
 local playerVelocity = 3
-local playerX, playerY = 200, 120
+local playerX, playerY = 200, 30
+
+-- Platform
+local platformY = 120
+local platformMin = 30
+local platformMax = 210
 
 -- Drawing player image
 local playerImage = gfx.image.new(32, 32)
@@ -47,6 +52,14 @@ local function ring(value, min, max)
 	return min + (value - min) % (max - min)
 end
 
+-- (0,1 - 179,180,181 - 359,0,1) -> (0,1 - 179,180,179 - 1,0,1)
+local function crankYVal(crankVal)
+    if (crankVal <= 180) then
+        return crankVal
+    end
+    return 360 - crankVal
+end
+
 -- playdate.update function is required in every project!
 function playdate.update()
     -- Clear screen
@@ -56,18 +69,24 @@ function playdate.update()
         pd.ui.crankIndicator:draw()
     else
         -- Calculate velocity from crank angle 
-        local crankPosition = pd.getCrankPosition() - 90
-        local xVelocity = math.cos(math.rad(crankPosition)) * playerVelocity
-        local yVelocity = math.sin(math.rad(crankPosition)) * playerVelocity
+        local crankPosition = pd.getCrankPosition()
+
+        platformY = platformMin + crankYVal(crankPosition)
+
+        playerY += 1
+
+        --local xVelocity = math.cos(math.rad(crankPosition)) * playerVelocity
+        --local yVelocity = math.sin(math.rad(crankPosition)) * playerVelocity
         -- Move player
-        playerX += xVelocity
-        playerY += yVelocity
+        --playerX += xVelocity
+        --playerY += yVelocity
         -- Loop player position
-        playerX = ring(playerX, -playerSize, 400 + playerSize)
-        playerY = ring(playerY, -playerSize, 240 + playerSize)
+        --playerX = ring(playerX, -playerSize, 400 + playerSize)
+        --playerY = ring(playerY, -playerSize, 240 + playerSize)
     end
     -- Draw text
     gfx.drawTextAligned("Template configured!", 200, 30, kTextAlignment.center)
     -- Draw player
     playerImage:drawAnchored(playerX, playerY, 0.5, 0.5)
+    playerImage:drawAnchored(200, platformY, 0.5, 0.5)
 end
