@@ -7,7 +7,7 @@
 -- Importing libraries used for drawCircleAtPoint and crankIndicator
 import "CoreLibs/graphics"
 import "CoreLibs/ui"
-import "functions"
+import "utility"
 
 -- Localizing commonly used globals
 local pd <const> = playdate
@@ -22,6 +22,7 @@ local playerX, playerY = 200, 30
 
 -- Platform
 local platformY = 120
+local prevPlatformY = 120
 local platformSizeY = 10
 local platformMin = 30
 local platformMax = 210
@@ -66,15 +67,20 @@ function playdate.update()
         local crankPosition = pd.getCrankPosition()
 
         platformY = platformMin + CrankYVal(crankPosition)
-
+        local platformVelocityY = prevPlatformY - platformY
+        
         playerVelocityY += gravity
-
+        
         playerY += playerVelocityY
-        local newPlayerY = Clamp(playerY, 0, platformY-platformSizeY-playerSize)
-        if (newPlayerY ~= playerY) then
-            playerVelocityY = 0
+        
+        local maxPlayerPos = platformY-platformSizeY-playerSize
+        
+        if (maxPlayerPos < playerY) then
+            print(platformVelocityY)
+            playerY = maxPlayerPos
+            playerVelocityY = platformVelocityY * 10
         end
-        playerY = newPlayerY
+
 
         --local xVelocity = math.cos(math.rad(crankPosition)) * playerVelocity
         --local yVelocity = math.sin(math.rad(crankPosition)) * playerVelocity
@@ -84,6 +90,8 @@ function playdate.update()
         -- Loop player position
         --playerX = ring(playerX, -playerSize, 400 + playerSize)
         --playerY = ring(playerY, -playerSize, 240 + playerSize)
+
+        prevPlatformY = platformY
     end
     -- Draw text
     gfx.drawTextAligned("Template configured!", 200, 30, kTextAlignment.center)

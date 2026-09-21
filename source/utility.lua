@@ -1,5 +1,5 @@
 -- (0,1 - 179,180,181 - 359,0,1) -> (0,1 - 179,180,179 - 1,0,1)
- function CrankYVal(crankVal)
+function CrankYVal(crankVal)
     if (crankVal <= 180) then
         return crankVal
     end
@@ -7,14 +7,14 @@
 end
 
 -- Defining helper function
-local function Ring(value, min, max)
+function Ring(value, min, max)
 	if (min > max) then
 		min, max = max, min
 	end
 	return min + (value - min) % (max - min)
 end
 
-local function Clamp(value, min, max)
+function Clamp(value, min, max)
     if (value < min) then
         return min
     end
