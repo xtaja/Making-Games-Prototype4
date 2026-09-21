@@ -7,14 +7,14 @@
 end
 
 -- Defining helper function
-local function Ring(value, min, max)
+function Ring(value, min, max)
 	if (min > max) then
 		min, max = max, min
 	end
 	return min + (value - min) % (max - min)
 end
 
-local function Clamp(value, min, max)
+function Clamp(value, min, max)
     if (value < min) then
         return min
     end

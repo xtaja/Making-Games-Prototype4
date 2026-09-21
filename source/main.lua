@@ -7,7 +7,8 @@
 -- Importing libraries used for drawCircleAtPoint and crankIndicator
 import "CoreLibs/graphics"
 import "CoreLibs/ui"
-import "functions"
+import "utility"
+import "sprites"
 
 -- Localizing commonly used globals
 local pd <const> = playdate
@@ -26,33 +27,9 @@ local platformSizeY = 10
 local platformMin = 30
 local platformMax = 210
 
--- Drawing player image
-local playerImage = gfx.image.new(32, 32)
-gfx.pushContext(playerImage)
-    -- Draw outline
-    gfx.drawRoundRect(4, 3, 24, 26, 1)
-    -- Draw screen
-    gfx.drawRect(7, 6, 18, 12)
-    -- Draw eyes
-    gfx.drawLine(10, 12, 12, 10)
-    gfx.drawLine(12, 10, 14, 12)
-    gfx.drawLine(17, 12, 19, 10)
-    gfx.drawLine(19, 10, 21, 12)
-    -- Draw crank
-    gfx.drawRect(27, 15, 3, 9)
-    -- Draw A/B buttons
-    gfx.drawCircleInRect(16, 20, 4, 4)
-    gfx.drawCircleInRect(21, 20, 4, 4)
-    -- Draw D-Pad
-    gfx.drawRect(8, 22, 6, 2)
-    gfx.drawRect(10, 20, 2, 6)
-gfx.popContext()
+local playerImage = SetPlayerImage()
 
-local platformImage =gfx.image.new(150,15)
-gfx.pushContext(platformImage)
-    gfx.setColor(gfx.kColorBlack)
-    gfx.fillRoundRect(0,0,150,15,3)
-gfx.popContext()
+local platformImage = SetPlatformImage()
 
 -- playdate.update function is required in every project!
 function playdate.update()
@@ -76,14 +53,6 @@ function playdate.update()
         end
         playerY = newPlayerY
 
-        --local xVelocity = math.cos(math.rad(crankPosition)) * playerVelocity
-        --local yVelocity = math.sin(math.rad(crankPosition)) * playerVelocity
-        -- Move player
-        --playerX += xVelocity
-        --playerY += yVelocity
-        -- Loop player position
-        --playerX = ring(playerX, -playerSize, 400 + playerSize)
-        --playerY = ring(playerY, -playerSize, 240 + playerSize)
     end
     -- Draw text
     gfx.drawTextAligned("Template configured!", 200, 30, kTextAlignment.center)
