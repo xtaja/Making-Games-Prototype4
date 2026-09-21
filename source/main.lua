@@ -7,6 +7,7 @@
 -- Importing libraries used for drawCircleAtPoint and crankIndicator
 import "CoreLibs/graphics"
 import "CoreLibs/ui"
+import "functions"
 
 -- Localizing commonly used globals
 local pd <const> = playdate
@@ -47,6 +48,12 @@ gfx.pushContext(playerImage)
     gfx.drawRect(10, 20, 2, 6)
 gfx.popContext()
 
+local platformImage =gfx.image.new(150,15)
+gfx.pushContext(platformImage)
+    gfx.setColor(gfx.kColorBlack)
+    gfx.fillRoundRect(0,0,150,15,3)
+gfx.popContext()
+
 -- Defining helper function
 local function ring(value, min, max)
 	if (min > max) then
@@ -66,12 +73,7 @@ local function clamp(value, min, max)
 end
 
 -- (0,1 - 179,180,181 - 359,0,1) -> (0,1 - 179,180,179 - 1,0,1)
-local function crankYVal(crankVal)
-    if (crankVal <= 180) then
-        return crankVal
-    end
-    return 360 - crankVal
-end
+
 
 -- playdate.update function is required in every project!
 function playdate.update()
@@ -84,7 +86,7 @@ function playdate.update()
         -- Calculate velocity from crank angle 
         local crankPosition = pd.getCrankPosition()
 
-        platformY = platformMin + crankYVal(crankPosition)
+        platformY = platformMin + CrankYVal(crankPosition)
 
         playerVelocityY += gravity
 
@@ -108,5 +110,5 @@ function playdate.update()
     gfx.drawTextAligned("Template configured!", 200, 30, kTextAlignment.center)
     -- Draw player
     playerImage:drawAnchored(playerX, playerY, 0.5, 0.5)
-    playerImage:drawAnchored(200, platformY, 0.5, 0.5)
+    platformImage:drawAnchored(200, platformY, 0.5, 0.5)
 end
