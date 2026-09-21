@@ -54,27 +54,6 @@ gfx.pushContext(platformImage)
     gfx.fillRoundRect(0,0,150,15,3)
 gfx.popContext()
 
--- Defining helper function
-local function ring(value, min, max)
-	if (min > max) then
-		min, max = max, min
-	end
-	return min + (value - min) % (max - min)
-end
-
-local function clamp(value, min, max)
-    if (value < min) then
-        return min
-    end
-    if (max < value) then
-        return max
-    end
-    return value
-end
-
--- (0,1 - 179,180,181 - 359,0,1) -> (0,1 - 179,180,179 - 1,0,1)
-
-
 -- playdate.update function is required in every project!
 function playdate.update()
     -- Clear screen
@@ -91,7 +70,7 @@ function playdate.update()
         playerVelocityY += gravity
 
         playerY += playerVelocityY
-        local newPlayerY = clamp(playerY, 0, platformY-platformSizeY-playerSize)
+        local newPlayerY = Clamp(playerY, 0, platformY-platformSizeY-playerSize)
         if (newPlayerY ~= playerY) then
             playerVelocityY = 0
         end
