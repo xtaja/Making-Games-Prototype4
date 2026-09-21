@@ -32,6 +32,28 @@ local playerImage = SetPlayerImage()
 
 local platformImage = SetPlatformImage()
 
+local function playerUpdate()
+    -- Calculate velocity from crank angle 
+    local crankPosition = pd.getCrankPosition()
+
+    platformY = platformMin + CrankYVal(crankPosition)
+    local platformVelocityY = prevPlatformY - platformY
+    
+    playerVelocityY += gravity
+    
+    playerY += playerVelocityY
+    
+    local maxPlayerPos = platformY-platformSizeY-playerSize
+    
+    if (maxPlayerPos < playerY) then
+        print(platformVelocityY)
+        playerY = maxPlayerPos
+        playerVelocityY = platformVelocityY * 10
+    end
+
+    prevPlatformY = platformY
+end
+
 -- playdate.update function is required in every project!
 function playdate.update()
     -- Clear screen
@@ -40,35 +62,7 @@ function playdate.update()
     if pd.isCrankDocked() then
         pd.ui.crankIndicator:draw()
     else
-        -- Calculate velocity from crank angle 
-        local crankPosition = pd.getCrankPosition()
-
-        platformY = platformMin + CrankYVal(crankPosition)
-        local platformVelocityY = prevPlatformY - platformY
-        
-        playerVelocityY += gravity
-        
-        playerY += playerVelocityY
-        
-        local maxPlayerPos = platformY-platformSizeY-playerSize
-        
-        if (maxPlayerPos < playerY) then
-            print(platformVelocityY)
-            playerY = maxPlayerPos
-            playerVelocityY = platformVelocityY * 10
-        end
-
-
-        --local xVelocity = math.cos(math.rad(crankPosition)) * playerVelocity
-        --local yVelocity = math.sin(math.rad(crankPosition)) * playerVelocity
-        -- Move player
-        --playerX += xVelocity
-        --playerY += yVelocity
-        -- Loop player position
-        --playerX = ring(playerX, -playerSize, 400 + playerSize)
-        --playerY = ring(playerY, -playerSize, 240 + playerSize)
-
-        prevPlatformY = platformY
+        playerUpdate()
     end
     -- Draw text
     gfx.drawTextAligned("Template configured!", 200, 30, kTextAlignment.center)
