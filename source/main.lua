@@ -45,7 +45,7 @@ function playdate.update()
         pd.ui.crankIndicator:draw()
     elseif not gameOver then
         swordRotation = UpdateSword()
-        gameOver = UpdateObstacles(swordRotation, OffsetLength/3 + SwordLength, SwordHalfWidth)
+        gameOver = UpdateObstacles(swordRotation, OffsetLength/3 + SwordLength, SwordHalfWidth,SwipeDir)
 
         obstacleTimer += 1
         if obstacleTimer >= obstacleInterval then

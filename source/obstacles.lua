@@ -32,7 +32,7 @@ function CreateObstacle()
 	table.insert(obstacles, obstacle)
 end
 
-local function SwordCollision(obstacle, swordRotation, swordLength, swordHalfWidth)
+local function SwordCollision(obstacle, swordRotation, swordLength, swordHalfWidth, swipeDir)
 
 	local dx = obstacle.x - screenWidth / 2
 	local dy = obstacle.y - screenHeight / 2
@@ -57,7 +57,7 @@ local function SwordCollision(obstacle, swordRotation, swordLength, swordHalfWid
 	return perpendicularDistance <= swordHalfWidth + obstacle.radius
 end
 
-function UpdateObstacles(swordRotation, swordLength, SwordHalfWidth)
+function UpdateObstacles(swordRotation, swordLength, swordHalfWidth, swipeDir)
 
 	for i = #obstacles, 1, -1 do
 		local obstacle = obstacles[i]
@@ -71,8 +71,16 @@ function UpdateObstacles(swordRotation, swordLength, SwordHalfWidth)
 		if distance <= obstacle.radius then
 			return true --collided with player
 		end
-		if SwordCollision(obstacle, swordRotation, swordLength, SwordHalfWidth) then
-			table.remove(obstacles, i)
+		if(swipeDir ~= 0) then
+			if SwordCollision(obstacle, swordRotation, swordLength, swordHalfWidth, swipeDir) then
+				if(obstacle.type == 0 and swipeDir == -1) or (obstacle.type == 1 and swipeDir == 1) then
+					-- correct swipe direction, destroy obstacle
+					table.remove(obstacles, i)
+				else
+					-- incorrect swipe direction, game over
+					return true
+				end
+			end
 		end
 
 	end
