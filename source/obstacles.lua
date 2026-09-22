@@ -3,27 +3,25 @@ import "sprites"
 local screenWidth <const> = 400
 local screenHeight <const> = 240
 local obstacles = {}
-local type = 0
-local minSize = 20
-local maxSize = 35
-local minSpeed = 1.2
-local maxSpeed = 2.0
-local angle = 0
+local minRadius = 20
+local maxRadius = 25
+local minSpeed = 1.5
+local maxSpeed = 3.0
 local distance = screenWidth
 
 
 function CreateObstacle()
 	local angle = math.random() * 2 * math.pi
+	local radius = math.random(minRadius, maxRadius)
 	local type = math.random(0,1)
-	local image, size = SetObstacleImage(type, minSize, maxSize, angle)
+	local image, radius = SetObstacleImage(type, radius)
 	local obstacle = {
 		image = image,
 		angle = angle,
 		type = type,
-		x = screenWidth/2 + math.cos(angle) * distance - size,
-		y = screenHeight/2 + math.sin(angle) * distance - size,
-		width = size,
-		height = size,
+		x = screenWidth/2 + math.cos(angle) * distance,
+		y = screenHeight/2 + math.sin(angle) * distance,
+		radius = radius,
 		direction = {
 			x = -math.cos(angle),
 			y = -math.sin(angle)
@@ -34,40 +32,57 @@ function CreateObstacle()
 	table.insert(obstacles, obstacle)
 end
 
-local function CollisionCheck(a, b)
-	return a.x < b.x + b.width
-		and b.x < a.x + a.width
-		and a.y < b.y + b.height
-		and b.y < a.y + a.height
+local function SwordCollision(obstacle, swordRotation, swordLength, swordHalfWidth)
+
+	local dx = obstacle.x - screenWidth / 2
+	local dy = obstacle.y - screenHeight / 2
+
+	local swordRad = (swordRotation - 90) * math.pi / 180
+	local swordDX = math.cos(swordRad)
+	local swordDY = math.sin(swordRad)
+
+	local projection = dx * swordDX + dy * swordDY
+
+	if projection < 0 then
+		return false
+	end
+
+	if projection > swordLength + obstacle.radius then
+		return false
+	end
+
+	local perpendicularDistance =
+		math.abs(dx * swordDY - dy * swordDX)
+
+	return perpendicularDistance <= swordHalfWidth + obstacle.radius
 end
 
-function UpdateObstacles(playerLeft, playerTop, playerWidth, playerHeight)
-	local player = {
-		x = playerLeft,
-		y = playerTop,
-		width = playerWidth,
-		height = playerHeight
-	}
-	local collided = false
+function UpdateObstacles(swordRotation, swordLength, SwordHalfWidth)
 
 	for i = #obstacles, 1, -1 do
 		local obstacle = obstacles[i]
 		obstacle.x += obstacle.speed * obstacle.direction.x
 		obstacle.y += obstacle.speed * obstacle.direction.y
 
-		if CollisionCheck(obstacle, player) then
-			collided = true
+		local dx = obstacle.x - screenWidth / 2
+		local dy = obstacle.y - screenHeight / 2
+		local distance = math.sqrt(dx * dx + dy * dy)
+
+		if distance <= obstacle.radius then
+			return true --collided with player
+		end
+		if SwordCollision(obstacle, swordRotation, swordLength, SwordHalfWidth) then
 			table.remove(obstacles, i)
 		end
 
 	end
 
-	return false --collided
+	return false
 end
 
 function DrawObstacles()
 	for _, obstacle in ipairs(obstacles) do
-		obstacle.image:draw(obstacle.x, obstacle.y)
+		obstacle.image:draw(obstacle.x - obstacle.radius, obstacle.y - obstacle.radius)
 	end
 end
 

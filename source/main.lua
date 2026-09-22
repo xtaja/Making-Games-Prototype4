@@ -22,19 +22,11 @@ local obstacleTimer = 0
 local obstacleInterval = 50
 local gameOver = false
 
--- Platform
-local platformY = 120
-local prevPlatformY = 120
-local platformSizeY = 10
-local platformMin = 30
-local platformMax = 210
-local platformImage = SetPlatformImage()
 
 local swordRotation = 0
 
 local function RestartGame()
     playerY = 200
-    platformY = 120
     obstacleTimer = 0
     gameOver = false
     ClearObstacles()
@@ -54,6 +46,7 @@ function playdate.update()
         pd.ui.crankIndicator:draw()
     elseif not gameOver then
         swordRotation = UpdateSword()
+        gameOver = UpdateObstacles(swordRotation, OffsetLength+SwordLength, SwordHalfWidth)
 
         obstacleTimer += 1
         if obstacleTimer >= obstacleInterval then
