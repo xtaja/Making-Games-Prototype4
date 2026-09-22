@@ -28,13 +28,18 @@ function SetPlatformImage ()
     return PlatformImage
 end
 
-function SetObstacleImage(minWidth, minHeight, maxWidth, maxHeight, angle)
-    local width = math.random(minWidth, maxWidth)
-    local height = math.random(minHeight, maxHeight)
-    local ObstacleImage = gfx.image.new(width, height)
+function SetObstacleImage(type,minSize, maxSize, angle)
+    local size = math.random(minSize, maxSize)
+    
+    local ObstacleImage = gfx.image.new(size, size)
+    
     gfx.pushContext(ObstacleImage)
         gfx.setColor(gfx.kColorBlack)
-        gfx.fillRoundRect(0,0,width,height,3)
+        gfx.fillCircleAtPoint(size/2, size/2, size/2)
+        if type == 1 then
+            gfx.setColor(gfx.kColorWhite )
+            gfx.fillCircleAtPoint(size/2, size/2, size/2-2)
+        end
     gfx.popContext()
-    return ObstacleImage, width, height
+    return ObstacleImage, size
 end
