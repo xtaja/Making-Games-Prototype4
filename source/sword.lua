@@ -8,7 +8,9 @@ local playerPosX = 200
 local playerPosY = 120
 
 -- Settings
-local minSwordSwipeDegSpeed = 40
+local minSwipeEnterSpeed = 25
+local minSwipeSpeed = 7
+--local minSwordSwipeDegSpeed = 40
 local maxSwordDegSpeed = 50
 OffsetLength = 50
 SwordLength = 50
@@ -27,7 +29,18 @@ local swordImage = SetSwordImage()
 local playerImage = SetPlayerImage()
 
 local function updateSwipeDir(degDelta)
-    if (minSwordSwipeDegSpeed < math.abs(degDelta)) then
+    local degSpeed = degDelta
+    if (SwipeDir == 0) then
+        -- Not currently swiping
+        if (minSwipeEnterSpeed <= math.abs(degSpeed)) then
+            SwipeDir = Sign(degDelta)
+            return
+        end
+        return
+    end
+
+    -- Currently swiping
+    if (minSwipeSpeed <= math.abs(degDelta)) then
         SwipeDir = Sign(degDelta)
         return
     end
