@@ -23,3 +23,13 @@ function Clamp(value, min, max)
     end
     return value
 end
+
+function Sign(value)
+    if (value == 0) then
+        return 0
+    end
+    if (value < 0) then
+        return -1
+    end
+    return 1
+end
