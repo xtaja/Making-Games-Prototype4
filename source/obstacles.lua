@@ -3,30 +3,27 @@ import "sprites"
 local screenWidth <const> = 400
 local screenHeight <const> = 240
 local obstacles = {}
-local minWidth = 20
-local minHeight = 20
-local maxWidth = 35
-local maxHeight = 35
-local minSpeed = 1.0
-local maxSpeed = 2.5
+local type = 0
+local minSize = 20
+local maxSize = 35
+local minSpeed = 1.2
+local maxSpeed = 2.0
 local angle = 0
-local direction ={
-	x = 0,
-	y = 0
-}
 local distance = screenWidth
 
 
 function CreateObstacle()
 	local angle = math.random() * 2 * math.pi
-	local image, width, height = SetObstacleImage(minWidth, minHeight, maxWidth, maxHeight,angle)
+	local type = math.random(0,1)
+	local image, size = SetObstacleImage(type, minSize, maxSize, angle)
 	local obstacle = {
 		image = image,
 		angle = angle,
-		x = screenWidth/2 + math.cos(angle) * distance - width, -- i think we should make them be the same height and width
-		y = screenHeight/2 + math.sin(angle) * distance - height,
-		width = width,
-		height = height,
+		type = type,
+		x = screenWidth/2 + math.cos(angle) * distance - size,
+		y = screenHeight/2 + math.sin(angle) * distance - size,
+		width = size,
+		height = size,
 		direction = {
 			x = -math.cos(angle),
 			y = -math.sin(angle)
