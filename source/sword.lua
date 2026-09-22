@@ -13,7 +13,7 @@ local maxSwordDegSpeed = 50
 OffsetLength = 50
 SwordLength = 50
 SwordHalfWidth = 4
-Flipped = false
+Flipped = true
 
 
 -- Variables

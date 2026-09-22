@@ -58,7 +58,10 @@ local function SwordCollision(obstacle, swordRotation, swordLength, swordHalfWid
 end
 
 function UpdateObstacles(swordRotation, swordLength, swordHalfWidth, swipeDir)
-
+	local flipSign = 1
+	if (Flipped) then
+		flipSign = -1
+	end
 	for i = #obstacles, 1, -1 do
 		local obstacle = obstacles[i]
 		obstacle.x += obstacle.speed * obstacle.direction.x
@@ -73,7 +76,7 @@ function UpdateObstacles(swordRotation, swordLength, swordHalfWidth, swipeDir)
 		end
 		if(swipeDir ~= 0) then
 			if SwordCollision(obstacle, swordRotation, swordLength, swordHalfWidth, swipeDir) then
-				if(obstacle.type == 0 and swipeDir == -1) or (obstacle.type == 1 and swipeDir == 1) then
+				if(obstacle.type == 0 and swipeDir * flipSign == -1) or (obstacle.type == 1 and swipeDir * flipSign == 1) then
 					-- correct swipe direction, destroy obstacle
 					table.remove(obstacles, i)
 				else
