@@ -15,8 +15,7 @@ local gravity = 0.5
 local playerSize = 10
 local playerWidth = 27
 local playerHeight = 27
-local playerVelocity = 3
-local playerX, playerY = 200, 30
+local playerX, playerY = 200, 120
 local playerImage = SetPlayerImage()
 
 local obstacleTimer = 0
@@ -32,8 +31,7 @@ local platformMax = 210
 local platformImage = SetPlatformImage()
 
 local function RestartGame()
-    playerY = 30
-    playerVelocity = 3
+    playerY = 200
     platformY = 120
     obstacleTimer = 0
     gameOver = false
@@ -54,19 +52,6 @@ function playdate.update()
         pd.ui.crankIndicator:draw()
     elseif not gameOver then
         UpdateSword()
-        -- Calculate velocity from crank angle 
-        local crankPosition = pd.getCrankPosition()
-
-        platformY = platformMin + CrankYVal(crankPosition)
-        playerVelocity += gravity
-        playerY += playerVelocity
-
-        local platformTop = platformY - platformSizeY / 2
-        local newPlayerY = Clamp(playerY, 0, platformTop - playerHeight)
-        if (newPlayerY ~= playerY) then
-            playerVelocity = 0
-        end
-        playerY = newPlayerY
 
         obstacleTimer += 1
         if obstacleTimer >= obstacleInterval then
@@ -79,9 +64,6 @@ function playdate.update()
         end
 
     end
-    -- Draw text
-    --gfx.drawTextAligned("Template configured!", 200, 30, kTextAlignment.center)
-    -- Draw player
     playerImage:drawAnchored(playerX, playerY + playerHeight / 2, 0.5, 0.5)
     platformImage:drawAnchored(200, platformY, 0.5, 0.5)
     DrawSword()

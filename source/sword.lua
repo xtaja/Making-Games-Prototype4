@@ -7,7 +7,7 @@ local playerPosX = 200
 local playerPosY = 120
 
 -- Settings
-local offsetLength = 50
+local offsetLength = 40
 
 -- Variables
 local swordDeg = 0
@@ -15,7 +15,7 @@ local swordPosX = 0
 local swordPosY = 0
 
 -- Sprite
-local playerImage = SetPlayerImage()
+local swordImage = SetPlayerImage()
 
 function UpdateSword()
     local cursorDeg = pd.getCrankPosition()
@@ -27,6 +27,5 @@ function UpdateSword()
 end
 
 function DrawSword()
-    playerImage:drawAnchored(playerPosX, playerPosY, 0.5, 0.5)
-    playerImage:drawAnchored(swordPosX, swordPosY, 0.5, 0.5)
+    swordImage:drawAnchored(swordPosX, swordPosY, 0.5, 0.5)
 end
