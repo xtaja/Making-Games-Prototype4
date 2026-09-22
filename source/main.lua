@@ -18,7 +18,7 @@ local playerHeight = 27
 local playerX, playerY = 200, 120
 
 local obstacleTimer = 0
-local obstacleInterval = 90
+local obstacleInterval = 50
 local gameOver = false
 
 -- Platform
@@ -61,8 +61,9 @@ function playdate.update()
         end
 
     end
-    
-    DrawSword(swordRotation)
+    playerImage:drawAnchored(playerX, playerY, 0.5, 0.5)
+    --platformImage:drawAnchored(200, platformY, 0.5, 0.5)
+    DrawSword()
     DrawObstacles()
 
     if gameOver then

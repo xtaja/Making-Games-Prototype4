@@ -28,7 +28,7 @@ function SetPlatformImage ()
     return PlatformImage
 end
 
-function SetObstacleImage(minWidth, minHeight, maxWidth, maxHeight)
+function SetObstacleImage(minWidth, minHeight, maxWidth, maxHeight, angle)
     local width = math.random(minWidth, maxWidth)
     local height = math.random(minHeight, maxHeight)
     local ObstacleImage = gfx.image.new(width, height)
