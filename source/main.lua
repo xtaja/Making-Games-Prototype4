@@ -16,7 +16,6 @@ local playerSize = 10
 local playerWidth = 27
 local playerHeight = 27
 local playerX, playerY = 200, 120
-local playerImage = SetPlayerImage()
 
 local obstacleTimer = 0
 local obstacleInterval = 90
@@ -29,6 +28,8 @@ local platformSizeY = 10
 local platformMin = 30
 local platformMax = 210
 local platformImage = SetPlatformImage()
+
+local swordRotation = 0
 
 local function RestartGame()
     playerY = 200
@@ -51,7 +52,7 @@ function playdate.update()
     if pd.isCrankDocked() then
         pd.ui.crankIndicator:draw()
     elseif not gameOver then
-        UpdateSword()
+        swordRotation = UpdateSword()
 
         obstacleTimer += 1
         if obstacleTimer >= obstacleInterval then
@@ -59,14 +60,9 @@ function playdate.update()
             CreateObstacle()
         end
 
-        if UpdateObstacles(playerX - playerWidth / 2, playerY, playerWidth, playerHeight) then
-            gameOver = true
-        end
-
     end
-    playerImage:drawAnchored(playerX, playerY + playerHeight / 2, 0.5, 0.5)
-    platformImage:drawAnchored(200, platformY, 0.5, 0.5)
-    DrawSword()
+    
+    DrawSword(swordRotation)
     DrawObstacles()
 
     if gameOver then

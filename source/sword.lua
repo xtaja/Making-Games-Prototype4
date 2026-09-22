@@ -15,7 +15,7 @@ local swordPosX = 0
 local swordPosY = 0
 
 -- Sprite
-local swordImage = SetPlayerImage()
+local swordImage = SetSwordImage(0)
 
 function UpdateSword()
     local cursorDeg = pd.getCrankPosition()
@@ -24,8 +24,10 @@ function UpdateSword()
     local swordRad = (swordDeg - 90) * math.pi / 180
     swordPosX = playerPosX + math.cos(swordRad) * offsetLength
     swordPosY = playerPosY + math.sin(swordRad) * offsetLength
-end
+    return cursorDeg
+end 
 
-function DrawSword()
+function DrawSword(rotation)
+    swordImage = SetSwordImage(rotation)
     swordImage:drawAnchored(swordPosX, swordPosY, 0.5, 0.5)
 end
