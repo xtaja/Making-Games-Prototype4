@@ -51,8 +51,7 @@ local function SwordCollision(obstacle, swordRotation, swordLength, swordHalfWid
 		return false
 	end
 
-	local perpendicularDistance =
-		math.abs(dx * swordDY - dy * swordDX)
+	local perpendicularDistance = math.abs(dx * swordDY - dy * swordDX)
 
 	return perpendicularDistance <= swordHalfWidth + obstacle.radius
 end

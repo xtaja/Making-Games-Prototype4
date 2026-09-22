@@ -106,3 +106,13 @@ function SetObstacleImage(type, radius)
     gfx.popContext()
     return ObstacleImage, radius
 end
+
+function SetTrailParticleImage(radius)
+    radius = math.max(1, math.floor(radius))
+    local TrailParticleImage = gfx.image.new(radius*2, radius*2)
+    gfx.pushContext(TrailParticleImage)
+        gfx.setColor(gfx.kColorBlack)
+        gfx.fillCircleAtPoint(radius, radius, radius)
+    gfx.popContext()
+    return TrailParticleImage
+end

@@ -89,8 +89,8 @@ function DrawSword(rotation)
     local angle = rotation or swordDeg
     swordImage = SetSwordImage()
     swordImage:drawRotated(swordPosX, swordPosY, angle+180)
-    if (SwipeDir ~= 0) then
+    --if (SwipeDir ~= 0) then
         -- Draw Sword Swipe
-        playerImage:drawAnchored(swordPosX, swordPosY, 0.5,0.5)
-    end
+        --playerImage:drawAnchored(swordPosX, swordPosY, 0.5,0.5)
+    --end
 end

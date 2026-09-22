@@ -4,6 +4,7 @@ import "utility"
 import "sprites"
 import "obstacles"
 import "sword"
+import "trailEffect"
 
 Score = 0
 HighScore = 0
@@ -32,8 +33,9 @@ local function RestartGame()
     obstacleTimer = 0
     gameOver = false
     ClearObstacles()
+    ClearTrail()
     HighScore = math.max(Score, HighScore)
-    Score = 0
+    Score = 0    
 end
 
 -- playdate.update function is required in every project!
@@ -50,6 +52,10 @@ function playdate.update()
         pd.ui.crankIndicator:draw()
     elseif not gameOver then
         swordRotation = UpdateSword()
+        if(SwipeDir ~= 0) then
+            CreateTrail(swordRotation)
+        end
+        UpdateTrail()
         gameOver = UpdateObstacles(swordRotation, OffsetLength/3 + SwordLength, SwordHalfWidth,SwipeDir)
 
         obstacleTimer += 1
@@ -61,7 +67,10 @@ function playdate.update()
     end
     playerImage:drawAnchored(playerX, playerY, 0.5, 0.5)
     DrawSword(swordRotation)
+    DrawTrail()
     DrawObstacles()
+    
+    
 
     gfx.drawTextAligned("Enemies slashed: " .. Score, 30, 30, kTextAlignment.left)
     if (HighScore ~= 0) then
