@@ -8,7 +8,7 @@ local playerPosX = 200
 local playerPosY = 120
 
 -- Settings
-OffsetLength = 40
+OffsetLength = 50
 local maxSwordDegSpeed = 50
 SwordLength = 50
 SwordHalfWidth = 4

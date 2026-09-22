@@ -30,9 +30,15 @@ end
 function SetSwordImage ()
     local size = 64
     local bladeLength = SwordLength*2/3
-    local handleLength = SwordLength-bladeLength
     local bladeWidth = SwordHalfWidth
+
+    local handleLength = SwordLength-bladeLength
+    local gripLength = handleLength*0.8
+
+    local guardWidth = 8
+    local guardLength = handleLength-gripLength
     local tipLength = 5
+    local gripWidth = 2
     local cX = size/2
     local SwordImage = gfx.image.new(size, size)
 
@@ -56,8 +62,9 @@ function SetSwordImage ()
             cX+bladeWidth, bladeLength-tipLength+handleLength, 
             cX, bladeLength+handleLength
         )
-
-
+        --handle
+        gfx.drawRect(cX+guardWidth, handleLength,-guardWidth*2,-guardLength)
+        gfx.drawRect(cX+gripWidth, 0,-gripWidth*2,gripLength)
 
 
     gfx.popContext()
