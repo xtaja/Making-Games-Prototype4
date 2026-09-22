@@ -79,6 +79,7 @@ function UpdateObstacles(swordRotation, swordLength, swordHalfWidth, swipeDir)
 				if(obstacle.type == 0 and swipeDir * flipSign == -1) or (obstacle.type == 1 and swipeDir * flipSign == 1) then
 					-- correct swipe direction, destroy obstacle
 					table.remove(obstacles, i)
+					Score += 1
 				else
 					-- incorrect swipe direction, game over
 					return true

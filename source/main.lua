@@ -5,6 +5,8 @@ import "sprites"
 import "obstacles"
 import "sword"
 
+Score = 0
+
 -- Localizing commonly used globals
 local pd <const> = playdate
 local gfx <const> = playdate.graphics
@@ -29,6 +31,7 @@ local function RestartGame()
     obstacleTimer = 0
     gameOver = false
     ClearObstacles()
+    Score = 0
 end
 
 -- playdate.update function is required in every project!
@@ -58,7 +61,9 @@ function playdate.update()
     DrawSword(swordRotation)
     DrawObstacles()
 
+    gfx.drawTextAligned("Enemies slashed: " .. Score, 200, 30, kTextAlignment.center)
+
     if gameOver then
-        gfx.drawTextAligned("Press A to restart", 200, 30, kTextAlignment.center)
+        gfx.drawTextAligned("Press A to restart", 200, 240 - 30, kTextAlignment.center)
     end
 end
