@@ -41,6 +41,11 @@ function SetSwordImage ()
     local gripWidth = 2
     local cX = size/2
     local SwordImage = gfx.image.new(size, size)
+    local FlipSign = 1
+    
+    if(Flipped) then
+        FlipSign = -1
+    end
 
     gfx.pushContext(SwordImage)
         gfx.drawLine(cX, handleLength, cX, bladeLength+handleLength)
@@ -69,8 +74,8 @@ function SetSwordImage ()
         --colorin
         gfx.fillPolygon(
             cX, bladeLength+handleLength,
-            cX+bladeWidth, bladeLength-tipLength+handleLength,
-            cX+bladeWidth,handleLength,
+            cX+(bladeWidth*FlipSign), bladeLength-tipLength+handleLength,
+            cX+(bladeWidth*FlipSign),handleLength,
             cX, handleLength
         )
 
