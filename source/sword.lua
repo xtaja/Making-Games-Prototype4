@@ -8,8 +8,11 @@ local playerPosX = 200
 local playerPosY = 120
 
 -- Settings
-local offsetLength = 40
+OffsetLength = 40
 local maxSwordDegSpeed = 50
+SwordLength = 50
+SwordHalfWidth = 4
+
 
 -- Variables
 local swordDeg = 0
@@ -18,7 +21,8 @@ local swordPosY = 0
 local cursorDeg
 
 -- Sprite
-local swordImage = SetSwordImage(0)
+local swordImage = SetSwordImage()
+local playerImage = SetPlayerImage()
 
 local function moveTowardsCursor(cursorDeg)
     local degDelta = cursorDeg - swordDeg
@@ -45,8 +49,8 @@ end
 
 local function updateSwordPos()
     local swordRad = (swordDeg - 90) * math.pi / 180
-    swordPosX = playerPosX + math.cos(swordRad) * offsetLength
-    swordPosY = playerPosY + math.sin(swordRad) * offsetLength
+    swordPosX = playerPosX + math.cos(swordRad) * OffsetLength
+    swordPosY = playerPosY + math.sin(swordRad) * OffsetLength
     return swordDeg
 end 
 
@@ -59,5 +63,6 @@ end
 function DrawSword(rotation)
     local angle = rotation or swordDeg
     swordImage = SetSwordImage()
+    --playerImage:drawAnchored(swordPosX, swordPosY, 0.5,0.5)
     swordImage:drawRotated(swordPosX, swordPosY, angle+180)
 end

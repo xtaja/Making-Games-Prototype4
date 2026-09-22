@@ -16,6 +16,7 @@ local playerSize = 10
 local playerWidth = 27
 local playerHeight = 27
 local playerX, playerY = 200, 120
+local playerImage = SetPlayerImage()
 
 local obstacleTimer = 0
 local obstacleInterval = 50
@@ -61,7 +62,7 @@ function playdate.update()
         end
 
     end
-    --platformImage:drawAnchored(200, platformY, 0.5, 0.5)
+    playerImage:drawAnchored(playerX, playerY, 0.5, 0.5)
     DrawSword(swordRotation)
     DrawObstacles()
 
