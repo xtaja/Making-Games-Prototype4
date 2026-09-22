@@ -9,25 +9,26 @@ local distance = 50
 local offset = 10
 local lifeTime = 30
 
-function CreateTrailPatricle(swordRotation, offset)
+function CreateTrailPatricle(type, swordRotation, offset)
     local radius = math.random(minRadius, maxRadius)
-    local image = SetTrailParticleImage(radius)
+    local image = SetTrailParticleImage(type,radius)
     local shrinkFactor = math.random(65,85)*0.01
     local trailParticle = {
         x = screenWidth/2 + math.cos(math.rad(swordRotation - 90)) * distance + offset,
         y = screenHeight/2 + math.sin(math.rad(swordRotation - 90)) * distance + offset,
         radius = radius,
         image = image,
+        type = type,
         shrinkFactor = shrinkFactor,
         lifeTime = lifeTime
     }
     table.insert(trail, trailParticle)
 end
 
-function CreateTrail(swordRotation)
-    CreateTrailPatricle(swordRotation, 5 + offset * math.random())
-    CreateTrailPatricle(swordRotation, 5 + offset * math.random())
-    CreateTrailPatricle(swordRotation, 5 + offset * math.random())
+function CreateTrail(type, swordRotation)
+    CreateTrailPatricle(type, swordRotation, 5 + offset * math.random())
+    CreateTrailPatricle(type, swordRotation, 5 + offset * math.random())
+    CreateTrailPatricle(type, swordRotation, 5 + offset * math.random())
 end
 
 function UpdateTrail()
@@ -38,7 +39,7 @@ function UpdateTrail()
         if trailParticle.lifeTime <= 0 or trailParticle.radius <= 1 then
             table.remove(trail, i)
         end
-        trailParticle.image = SetTrailParticleImage(trailParticle.radius)
+        trailParticle.image = SetTrailParticleImage(trailParticle.type, trailParticle.radius)
     end
 end
 

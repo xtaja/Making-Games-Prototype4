@@ -53,7 +53,7 @@ function playdate.update()
     elseif not gameOver then
         swordRotation = UpdateSword()
         if(SwipeDir ~= 0) then
-            CreateTrail(swordRotation)
+            CreateTrail(SwipeDir,swordRotation)
         end
         UpdateTrail()
         gameOver = UpdateObstacles(swordRotation, OffsetLength/3 + SwordLength, SwordHalfWidth,SwipeDir)
