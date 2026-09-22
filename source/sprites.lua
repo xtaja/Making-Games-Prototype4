@@ -29,9 +29,9 @@ end
 
 function SetSwordImage ()
     local size = 64
-    local bladeLength = 28
-    local handleLength = 30
-    local bladeWidth = 4
+    local bladeLength = SwordLength*2/3
+    local handleLength = SwordLength-bladeLength
+    local bladeWidth = SwordHalfWidth
     local tipLength = 5
     local cX = size/2
     local SwordImage = gfx.image.new(size, size)
@@ -39,11 +39,25 @@ function SetSwordImage ()
     gfx.pushContext(SwordImage)
         gfx.drawLine(cX, handleLength, cX, bladeLength+handleLength)
         --blade
-        gfx.drawLine(cX-bladeWidth,30,cX-bladeWidth, bladeLength-tipLength+30)
-        gfx.drawLine(cX+bladeWidth,30,cX+bladeWidth, bladeLength-tipLength+30)
+        gfx.drawLine(
+            cX-bladeWidth, handleLength,
+            cX-bladeWidth, bladeLength-tipLength+handleLength
+        )
+        gfx.drawLine(
+            cX+bladeWidth,handleLength,
+            cX+bladeWidth, bladeLength-tipLength+handleLength
+        )
         --tip
-        gfx.drawLine(cX-bladeWidth, bladeLength-tipLength+30, cX, bladeLength+30)
-        gfx.drawLine(cX+bladeWidth, bladeLength-tipLength+30, cX, bladeLength+30)
+        gfx.drawLine(
+            cX-bladeWidth, bladeLength-tipLength+handleLength, 
+            cX, bladeLength+handleLength
+        )
+        gfx.drawLine(
+            cX+bladeWidth, bladeLength-tipLength+handleLength, 
+            cX, bladeLength+handleLength
+        )
+
+
 
 
     gfx.popContext()
