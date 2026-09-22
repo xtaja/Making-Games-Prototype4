@@ -15,6 +15,7 @@ local maxSwordDegSpeed = 50
 local swordDeg = 0
 local swordPosX = 0
 local swordPosY = 0
+local cursorDeg
 
 -- Sprite
 local swordImage = SetSwordImage(0)
@@ -46,16 +47,17 @@ local function updateSwordPos()
     local swordRad = (swordDeg - 90) * math.pi / 180
     swordPosX = playerPosX + math.cos(swordRad) * offsetLength
     swordPosY = playerPosY + math.sin(swordRad) * offsetLength
-    return cursorDeg
+    return swordDeg
 end 
 
 function UpdateSword()
     local cursorDeg = pd.getCrankPosition()
     moveTowardsCursor(cursorDeg)
-    updateSwordPos()
+    return updateSwordPos()
 end
 
 function DrawSword(rotation)
-    swordImage = SetSwordImage(rotation)
-    swordImage:drawAnchored(swordPosX, swordPosY, 0.5, 0.5)
+    local angle = rotation or swordDeg
+    swordImage = SetSwordImage()
+    swordImage:drawRotated(swordPosX, swordPosY, angle+180)
 end

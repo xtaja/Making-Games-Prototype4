@@ -3,18 +3,18 @@ import "CoreLibs/graphics"
 
 local gfx <const> = playdate.graphics
 
-function SetSwordImage (deg)
+function SetSwordImage ()
     local size = 64
     local bladeLength = 28
+    local bladeWidth = 4
+    local tipLength = 5
+    local cX = size/2
     local SwordImage = gfx.image.new(size, size)
-    local cx, cy = size / 2, size / 2
-
-    local angle = math.rad(deg - 90)
-    local tipX = cx + math.cos(angle) * bladeLength
-    local tipY = cy + math.sin(angle) * bladeLength
 
     gfx.pushContext(SwordImage)
-        gfx.drawLine(cx, cy, tipX, tipY)
+        gfx.drawLine(cX, 0, cX, bladeLength)
+        gfx.drawLine(cX-bladeWidth,0,cX-bladeWidth, bladeLength-tipLength)
+        gfx.drawLine(cX+bladeWidth,0,cX+bladeWidth, bladeLength-tipLength)
     gfx.popContext()
     return SwordImage
 end

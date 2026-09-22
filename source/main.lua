@@ -61,9 +61,8 @@ function playdate.update()
         end
 
     end
-    playerImage:drawAnchored(playerX, playerY, 0.5, 0.5)
     --platformImage:drawAnchored(200, platformY, 0.5, 0.5)
-    DrawSword()
+    DrawSword(swordRotation)
     DrawObstacles()
 
     if gameOver then
