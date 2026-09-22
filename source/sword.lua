@@ -8,7 +8,7 @@ local playerPosX = 200
 local playerPosY = 120
 
 -- Settings
-local minSwordSwipeDegSpeed = 20
+local minSwordSwipeDegSpeed = 40
 local maxSwordDegSpeed = 50
 OffsetLength = 50
 SwordLength = 50
@@ -20,7 +20,7 @@ Flipped = false
 local swordDeg = 0
 local swordPosX = 0
 local swordPosY = 0
-local swipeDir = 0
+SwipeDir = 0
 
 -- Sprite
 local swordImage = SetSwordImage()
@@ -28,10 +28,10 @@ local playerImage = SetPlayerImage()
 
 local function updateSwipeDir(degDelta)
     if (minSwordSwipeDegSpeed < math.abs(degDelta)) then
-        swipeDir = Sign(degDelta)
+        SwipeDir = Sign(degDelta)
         return
     end
-    swipeDir = 0
+    SwipeDir = 0
 end
 
 local function moveTowardsCursor(cursorDeg)
@@ -76,7 +76,7 @@ function DrawSword(rotation)
     local angle = rotation or swordDeg
     swordImage = SetSwordImage()
     swordImage:drawRotated(swordPosX, swordPosY, angle+180)
-    if (swipeDir ~= 0) then
+    if (SwipeDir ~= 0) then
         -- Draw Sword Swipe
         playerImage:drawAnchored(swordPosX, swordPosY, 0.5,0.5)
     end
