@@ -66,6 +66,13 @@ function SetSwordImage ()
         gfx.drawRect(cX+guardWidth, handleLength,-guardWidth*2,-guardLength)
         gfx.drawRect(cX+gripWidth, 0,-gripWidth*2,gripLength)
 
+        --colorin
+        gfx.fillPolygon(
+            cX, bladeLength+handleLength,
+            cX+bladeWidth, bladeLength-tipLength+handleLength,
+            cX+bladeWidth,handleLength,
+            cX, handleLength
+        )
 
     gfx.popContext()
     return SwordImage
