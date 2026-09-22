@@ -3,6 +3,7 @@ import "CoreLibs/ui"
 import "utility"
 import "sprites"
 import "obstacles"
+import "sword"
 
 -- Localizing commonly used globals
 local pd <const> = playdate
@@ -52,6 +53,7 @@ function playdate.update()
     if pd.isCrankDocked() then
         pd.ui.crankIndicator:draw()
     elseif not gameOver then
+        UpdateSword()
         -- Calculate velocity from crank angle 
         local crankPosition = pd.getCrankPosition()
 
@@ -82,6 +84,7 @@ function playdate.update()
     -- Draw player
     playerImage:drawAnchored(playerX, playerY + playerHeight / 2, 0.5, 0.5)
     platformImage:drawAnchored(200, platformY, 0.5, 0.5)
+    DrawSword()
     DrawObstacles()
 
     if gameOver then
