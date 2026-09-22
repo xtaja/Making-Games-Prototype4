@@ -6,6 +6,7 @@ import "obstacles"
 import "sword"
 
 Score = 0
+HighScore = 0
 
 -- Localizing commonly used globals
 local pd <const> = playdate
@@ -31,6 +32,7 @@ local function RestartGame()
     obstacleTimer = 0
     gameOver = false
     ClearObstacles()
+    HighScore = math.max(Score, HighScore)
     Score = 0
 end
 
@@ -61,7 +63,10 @@ function playdate.update()
     DrawSword(swordRotation)
     DrawObstacles()
 
-    gfx.drawTextAligned("Enemies slashed: " .. Score, 200, 30, kTextAlignment.center)
+    gfx.drawTextAligned("Enemies slashed: " .. Score, 30, 30, kTextAlignment.left)
+    if (HighScore ~= 0) then
+        gfx.drawTextAligned("High Score: " .. HighScore, 400 - 30, 30, kTextAlignment.right)
+    end
 
     if gameOver then
         gfx.drawTextAligned("Press A to restart", 200, 240 - 30, kTextAlignment.center)
