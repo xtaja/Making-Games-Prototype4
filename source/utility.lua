@@ -33,3 +33,15 @@ function Sign(value)
     end
     return 1
 end
+
+function DegToRad(deg)
+    return deg * math.pi / 180
+end
+
+function RadToDeg(rad)
+    return rad * 180 / math.pi
+end
+
+function CalcDist(distX, distY)
+    return math.sqrt(distX * distX + distY * distY)
+end
