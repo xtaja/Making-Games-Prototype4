@@ -23,10 +23,13 @@ local swordDeg = 0
 local swordPosX = 0
 local swordPosY = 0
 SwipeDir = 0
+SwipeAllowed = true
 
 -- Sprite
 local swordImage = SetSwordImage()
 local playerImage = SetPlayerImage()
+
+local accumulatedSwiping = 0
 
 local function updateSwipeDir(degDelta)
     local degSpeed = degDelta
@@ -34,12 +37,21 @@ local function updateSwipeDir(degDelta)
         -- Not currently swiping
         if (MinSwipeEnterSpeed <= math.abs(degSpeed)) then
             SwipeDir = Sign(degDelta)
+            SwipeAllowed = true
+            accumulatedSwiping = degDelta
             return
         end
         return
     end
 
     -- Currently swiping
+    accumulatedSwiping += degDelta
+
+    if (math.abs(accumulatedSwiping) > 360 + 180) then
+        --maxSwordDegSpeed = 24
+        SwipeAllowed = false
+    end
+
     if (MinSwipeSpeed <= math.abs(degDelta)) then
         SwipeDir = Sign(degDelta)
         return

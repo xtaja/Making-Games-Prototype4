@@ -153,7 +153,7 @@ function UpdateObstacles(swordRotation, swordLength, swordHalfWidth, swipeDir)
 			--table.remove(obstacles, i)
 			return true --collided with player
 		end
-		if(swipeDir ~= 0) then
+		if(swipeDir ~= 0 and SwipeAllowed) then
 			if SwordCollision(obstacle, swordRotation, swordLength, swordHalfWidth, swipeDir) then
 				if(obstacle.type == -1 and swipeDir * flipSign == -1) or (obstacle.type == 1 and swipeDir * flipSign == 1) then
 					-- correct swipe direction, destroy obstacle

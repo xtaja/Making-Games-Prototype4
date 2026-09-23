@@ -56,7 +56,7 @@ function playdate.update()
         pd.ui.crankIndicator:draw()
     elseif not gameOver then
         swordRotation = UpdateSword()
-        if(SwipeDir ~= 0) then
+        if(SwipeDir ~= 0 and SwipeAllowed) then
             CreateTrail(SwipeDir,swordRotation)
         end
         UpdateTrail()
