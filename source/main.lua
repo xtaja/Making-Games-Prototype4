@@ -9,6 +9,8 @@ import "trailEffect"
 Score = 0
 HighScore = 0
 
+import "debugValueSetter"
+
 -- Localizing commonly used globals
 local pd <const> = playdate
 local gfx <const> = playdate.graphics
@@ -28,6 +30,8 @@ local gameOver = false
 
 
 local swordRotation = 0
+
+local enableDebug = true;
 
 local function RestartGame()
     obstacleTimer = 0
@@ -61,7 +65,7 @@ function playdate.update()
         obstacleTimer += 1
         if obstacleTimer >= obstacleInterval then
             obstacleTimer = 0
-            CreateObstacle()
+            --CreateObstacle()
         end
 
     end
@@ -69,8 +73,6 @@ function playdate.update()
     DrawSword(swordRotation)
     DrawTrail()
     DrawObstacles()
-    
-    
 
     gfx.drawTextAligned("Enemies slashed: " .. Score, 30, 30, kTextAlignment.left)
     if (HighScore ~= 0) then
@@ -79,5 +81,14 @@ function playdate.update()
 
     if gameOver then
         gfx.drawTextAligned("Press A to restart", 200, 240 - 30, kTextAlignment.center)
+    end
+
+    -- if (enableDebug and gameOver) then
+    --     
+    -- end
+    
+    if (enableDebug) then
+        UpdateDebugValueSetter()
+        gfx.drawTextAligned("Debug info: " .. MinSwipeEnterSpeed .. ", " .. MinSwipeSpeed, 400 - 20, 240 - 20, kTextAlignment.right)
     end
 end
