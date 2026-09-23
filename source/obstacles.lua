@@ -1,6 +1,7 @@
 import "sprites"
 import "sword"
 import "utility"
+import "sound"
 
 local screenWidth <const> = 400
 local screenHeight <const> = 240
@@ -151,6 +152,7 @@ function UpdateObstacles(swordRotation, swordLength, swordHalfWidth, swipeDir)
 
 		if distance <= obstacle.radius then
 			--table.remove(obstacles, i)
+			PlayGameOverSFX()
 			return true --collided with player
 		end
 		if(swipeDir ~= 0 and SwipeAllowed) then
@@ -159,8 +161,10 @@ function UpdateObstacles(swordRotation, swordLength, swordHalfWidth, swipeDir)
 					-- correct swipe direction, destroy obstacle
 					table.remove(obstacles, i)
 					Score += 1
+					PlayCorrectHitSFX()
 				else
 					-- incorrect swipe direction, game over
+					PlayIncorrectHitSFX()
 					return true
 				end
 			end
