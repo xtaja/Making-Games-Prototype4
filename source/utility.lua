@@ -45,3 +45,11 @@ end
 function CalcDist(distX, distY)
     return math.sqrt(distX * distX + distY * distY)
 end
+
+function RandomType()
+    local type = math.random(0,1)
+    if (type == 0) then
+        return -1
+    end
+    return 1
+end

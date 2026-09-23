@@ -12,15 +12,57 @@ local maxSpeed = 3.0
 local distance = CalcDist(screenWidth, screenHeight) / 2 + 25
 local groundZeroOffSet = OffsetLength + SwordLength / 2 -- 75
 
-function CreateObstacle()
-	local angle = math.random() * 2 * math.pi -- DegToRad(30.96)
+MaxObstacleCountInLayer = 0
+local currentMaxObstacleCountInLayer = MaxObstacleCountInLayer
+
+function SpawnObstacleLayer()
+	local minAngle = 0
+	local maxAngle = 2 * math.pi
+	local angleMargin = DegToRad(22.5)
+	local obstacleCount = math.random(0, currentMaxObstacleCountInLayer)
+	--currentMaxObstacleCountInLayer -= 1
+	currentMaxObstacleCountInLayer -= obstacleCount;
+	local type = RandomType()
+	local otherType = -type--RandomType()
+	local delayFrames = 0
+	for i = 0, obstacleCount - 1 do
+		local angle = minAngle + math.random() * (maxAngle - minAngle)
+		--print(i, "from:", minAngle, angle, maxAngle)
+		if (angle - minAngle < maxAngle - angle) then
+			minAngle = angle + angleMargin
+		else
+			maxAngle = angle - angleMargin
+		end
+
+		--local angle = i * 2 * math.pi / obstacleCount
+		CreateObstacle(angle, type, delayFrames)
+		type = otherType
+		delayFrames = 20
+		--currentMaxObstacleCountInLayer -= 1
+		--print(i, "to:", minAngle, maxAngle)
+		if (maxAngle < minAngle + 2 * angleMargin) then
+			--currentMaxObstacleCountInLayer = math.min(currentMaxObstacleCountInLayer + 1, MaxObstacleCountInLayer)
+			currentMaxObstacleCountInLayer += 1
+			print(i + 1, currentMaxObstacleCountInLayer, MaxObstacleCountInLayer)
+			return
+		end
+	end
+	--currentMaxObstacleCountInLayer = math.min(currentMaxObstacleCountInLayer + 1, MaxObstacleCountInLayer)
+	currentMaxObstacleCountInLayer += 1
+	print(obstacleCount, currentMaxObstacleCountInLayer, MaxObstacleCountInLayer)
+end
+
+function CreateObstacle(angle, type, delay)--(minAngle, maxAngle)
+	angle = angle or math.random() * 2 * math.pi
+	type = type or RandomType()
+	delay = delay or 0
+
 	local radius = math.random(minRadius, maxRadius)
-	local type = math.random(0,1)
 	local image, radius = SetObstacleImage(type, radius)
 	local speed = minSpeed + math.random() * (maxSpeed - minSpeed)
-	-- the enemy will always reach the groundZeroOffSet at the correct time...
-	--local spawnDistance = (distance - groundZeroOffSet) * speed / minSpeed + groundZeroOffSet
-	local spawnDistance = distance
+	local delayOffset = delay * speed
+	local spawnDistance = (distance - groundZeroOffSet) * speed / minSpeed + groundZeroOffSet + delayOffset
+	--local spawnDistance = distance
 	local obstacle = {
 		image = image,
 		angle = angle,
@@ -77,12 +119,12 @@ function UpdateObstacles(swordRotation, swordLength, swordHalfWidth, swipeDir)
 		local distance = math.sqrt(dx * dx + dy * dy)
 
 		if distance <= obstacle.radius then
-			--table.remove(obstacles, i)
+			table.remove(obstacles, i)
 			return true --collided with player
 		end
 		if(swipeDir ~= 0) then
 			if SwordCollision(obstacle, swordRotation, swordLength, swordHalfWidth, swipeDir) then
-				if(obstacle.type == 0 and swipeDir * flipSign == -1) or (obstacle.type == 1 and swipeDir * flipSign == 1) then
+				if(obstacle.type == -1 and swipeDir * flipSign == -1) or (obstacle.type == 1 and swipeDir * flipSign == 1) then
 					-- correct swipe direction, destroy obstacle
 					table.remove(obstacles, i)
 					Score += 1
