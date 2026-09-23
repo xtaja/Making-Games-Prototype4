@@ -92,16 +92,36 @@ function SetPlatformImage ()
     return PlatformImage
 end
 
-function SetObstacleImage(type, radius)
+function SetObstacleImage(type, radius, animFrame)
     
     local ObstacleImage = gfx.image.new(radius*2, radius*2)
+    local moveLeg = radius/6 * animFrame 
     
     gfx.pushContext(ObstacleImage)
         gfx.setColor(gfx.kColorBlack)
-        gfx.fillCircleAtPoint(radius, radius, radius)
+        gfx.setLineWidth(2)
+
+        --gfx.drawCircleAtPoint(radius,radius,radius)
+
+        gfx.fillCircleAtPoint(radius, radius*2/3, radius*2/3)--big one
+        gfx.fillCircleAtPoint(radius, radius*5/4, radius/2)--small one
+        gfx.drawLine(radius, radius*5/4, radius/2, radius*2)--antena left
+        gfx.drawLine(radius, radius*5/4, radius*3/2, radius*2)--antena right
+
+        --left leg
+        gfx.drawLine(radius, radius*2/3, radius/8, radius/5 + moveLeg)
+        gfx.drawLine(radius, radius*2/3, radius*0, radius*2/3 + moveLeg)
+        gfx.drawLine(radius, radius*2/3, radius/6, radius*6/5 + moveLeg)
+
+        --right leg
+        gfx.drawLine(radius, radius*2/3, radius*15/8, radius/5 - moveLeg)
+        gfx.drawLine(radius, radius*2/3, radius*2, radius*2/3 - moveLeg)
+        gfx.drawLine(radius, radius*2/3, radius*11/6, radius*6/5 - moveLeg)
+
         if type == 1 then
             gfx.setColor(gfx.kColorWhite )
-            gfx.fillCircleAtPoint(radius, radius, radius-2)
+            gfx.fillCircleAtPoint(radius, radius*2/3, radius*2/3 -2)--big one
+        gfx.fillCircleAtPoint(radius, radius*5/4, radius/2 -2)--small one
         end
     gfx.popContext()
     return ObstacleImage, radius
@@ -112,6 +132,7 @@ function SetTrailParticleImage(type,radius)
     local TrailParticleImage = gfx.image.new(radius*2, radius*2)
     gfx.pushContext(TrailParticleImage)
         gfx.setColor(gfx.kColorBlack)
+        gfx.fillCircleAtPoint(radius, radius, radius)
         gfx.fillCircleAtPoint(radius, radius, radius)
         if type == -1 then
             gfx.setColor(gfx.kColorWhite )

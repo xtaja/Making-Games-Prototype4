@@ -26,6 +26,7 @@ local playerImage = SetPlayerImage()
 
 local obstacleTimer = 25
 local obstacleInterval = 50
+local animationFrame = 1
 local gameOver = false
 
 
@@ -35,6 +36,7 @@ local enableDebug = true;
 
 local function RestartGame()
     obstacleTimer = 0
+    animationFrame = 1
     gameOver = false
     ClearObstacles()
     ClearTrail()
@@ -64,6 +66,9 @@ function playdate.update()
         --gameOver = false
 
         obstacleTimer += 1
+        if obstacleTimer%5 ==0 then
+            animationFrame = -animationFrame
+        end
         if obstacleTimer >= obstacleInterval then
             obstacleTimer = 0
             --CreateObstacle()
@@ -75,7 +80,7 @@ function playdate.update()
     playerImage:drawAnchored(playerX, playerY, 0.5, 0.5)
     DrawSword(swordRotation)
     DrawTrail()
-    DrawObstacles()
+    DrawObstacles(animationFrame)
 
     gfx.drawTextAligned("Bugs slashed: " .. Score, 30, 30, kTextAlignment.left)
     if (HighScore ~= 0) then
@@ -83,8 +88,10 @@ function playdate.update()
     end
 
     if gameOver then
-        gfx.drawTextAligned("A Bug has entered the game", 200, 240 - 60, kTextAlignment.center)
-        gfx.drawTextAligned("Press A to restart", 200, 240 - 30, kTextAlignment.center)
+        gfx.clear()
+        gfx.drawTextAligned("A Bug has entered the game", 200, 80, kTextAlignment.center)
+        gfx.drawTextAligned("Bugs slashed: " .. Score, 200, 120, kTextAlignment.center)
+        gfx.drawTextAligned("Press A to restart", 200, 240 - 40, kTextAlignment.center)
     end
 
     -- if (enableDebug and gameOver) then
