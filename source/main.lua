@@ -61,13 +61,14 @@ function playdate.update()
         end
         UpdateTrail()
         gameOver = UpdateObstacles(swordRotation, OffsetLength/3 + SwordLength, SwordHalfWidth,SwipeDir)
-        gameOver = false
+        --gameOver = false
 
         obstacleTimer += 1
         if obstacleTimer >= obstacleInterval then
             obstacleTimer = 0
-            CreateObstacle()
+            --CreateObstacle()
             --SpawnObstacleLayer()
+            SpawnObstacleLayer3()
         end
 
     end

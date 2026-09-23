@@ -15,6 +15,37 @@ local groundZeroOffSet = OffsetLength + SwordLength / 2 -- 75
 MaxObstacleCountInLayer = 0
 local currentMaxObstacleCountInLayer = MaxObstacleCountInLayer
 
+function SpawnObstacleLayer3()
+	local option = math.random(0, 4)
+	local angle = math.random() * 2 * math.pi
+
+	if option == 0 then
+	elseif option == 1 then
+		CreateObstacle()
+	elseif option == 2 then
+		CreateObstacle(angle, 1)
+		CreateObstacle(angle + DegToRad(90), -1, 10)
+	elseif option == 3 then
+		local type = RandomType()
+		CreateObstacle(angle, type)
+		CreateObstacle(angle + DegToRad(90), type)
+	end
+end
+
+function SpawnObstacleLayer2()
+	local obstacleCount = math.random(0, 2)
+	local angle = math.random() * 2 * math.pi
+	if (obstacleCount == 0) then return end
+	local type1 = RandomType()
+	CreateObstacle(angle, type1)
+	if (obstacleCount == 1) then return end
+	local deltaAngle = DegToRad(90)
+	if (type1 == -1) then
+		deltaAngle = DegToRad(360 - 90)
+	end 
+	CreateObstacle(angle + deltaAngle, -type1)
+end
+
 function SpawnObstacleLayer()
 	local minAngle = 0
 	local maxAngle = 2 * math.pi
@@ -119,7 +150,7 @@ function UpdateObstacles(swordRotation, swordLength, swordHalfWidth, swipeDir)
 		local distance = math.sqrt(dx * dx + dy * dy)
 
 		if distance <= obstacle.radius then
-			table.remove(obstacles, i)
+			--table.remove(obstacles, i)
 			return true --collided with player
 		end
 		if(swipeDir ~= 0) then
