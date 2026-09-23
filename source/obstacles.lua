@@ -6,10 +6,10 @@ import "sound"
 local screenWidth <const> = 400
 local screenHeight <const> = 240
 local obstacles = {}
-local minRadius = 20
-local maxRadius = 25
-local minSpeed = 1.5
-local maxSpeed = 3.0
+local minRadius = 15
+local maxRadius = 20
+local minSpeed = 1.7
+local maxSpeed = 2.7
 local distance = CalcDist(screenWidth, screenHeight) / 2 + 25
 local groundZeroOffSet = OffsetLength + SwordLength / 2 -- 75
 
@@ -25,11 +25,11 @@ function SpawnObstacleLayer3()
 		CreateObstacle()
 	elseif option == 2 then
 		CreateObstacle(angle, 1)
-		CreateObstacle(angle + DegToRad(90), -1)
+		CreateObstacle(angle + DegToRad(90 + 45), -1)
 	elseif option == 3 then
 		local type = RandomType()
 		CreateObstacle(angle, type)
-		CreateObstacle(angle + DegToRad(90), type)
+		CreateObstacle(angle + DegToRad(90 - 22.5), type)
 	end
 end
 
@@ -90,18 +90,21 @@ function CreateObstacle(angle, type, delay)--(minAngle, maxAngle)
 	delay = delay or 0
 
 	local radius = math.random(minRadius, maxRadius)
-	local image, radius = SetObstacleImage(type, radius)
+	local image0, radius = SetObstacleImage(type, radius, 1)
+	local image1, radius = SetObstacleImage(type, radius, -1)
 	local speed = minSpeed + math.random() * (maxSpeed - minSpeed)
 	local delayOffset = delay * speed
 	local spawnDistance = (distance - groundZeroOffSet) * speed / minSpeed + groundZeroOffSet + delayOffset
 	--local spawnDistance = distance
 	local obstacle = {
-		image = image,
+		image0 = image0,
+		image1 = image1,
 		angle = angle,
 		type = type,
 		x = screenWidth/2 + math.cos(angle) * spawnDistance,
 		y = screenHeight/2 + math.sin(angle) * spawnDistance,
 		radius = radius,
+		rotation = RadToDeg(angle)+90,
 		direction = {
 			x = -math.cos(angle),
 			y = -math.sin(angle)
@@ -175,9 +178,13 @@ function UpdateObstacles(swordRotation, swordLength, swordHalfWidth, swipeDir)
 	return false
 end
 
-function DrawObstacles()
+function DrawObstacles(animationFrame)
 	for _, obstacle in ipairs(obstacles) do
-		obstacle.image:draw(obstacle.x - obstacle.radius, obstacle.y - obstacle.radius)
+		if animationFrame ==1 then
+			obstacle.image0:drawRotated(obstacle.x - obstacle.radius, obstacle.y - obstacle.radius,obstacle.rotation)
+		else
+			obstacle.image1:drawRotated(obstacle.x - obstacle.radius, obstacle.y - obstacle.radius,obstacle.rotation)
+		end
 	end
 end
 
