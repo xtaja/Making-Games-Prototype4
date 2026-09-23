@@ -4,14 +4,30 @@ local sound <const> = pd and pd.sound
 local swordSwingSFX = sound.fileplayer.new("sfx/sword_swing")
 local swordSliceSFX = sound.fileplayer.new("sfx/sword_slice")
 
-function PlaySwordSwingSFX()
-    local sfx = swordSwingSFX or swordSliceSFX
-    if not sfx then
-        return
-    end
+local swordSwingSFXs = {
+    sound.fileplayer.new("sfx/sword_swing"),
+    sound.fileplayer.new("sfx/sword_swing"),
+    sound.fileplayer.new("sfx/sword_swing"),
+    sound.fileplayer.new("sfx/sword_swing"),
+    sound.fileplayer.new("sfx/sword_swing"),
 
-    sfx:stop()
-    sfx:play()
+    sound.fileplayer.new("sfx/sword_swing"),
+    sound.fileplayer.new("sfx/sword_swing"),
+    sound.fileplayer.new("sfx/sword_swing"),
+    sound.fileplayer.new("sfx/sword_swing"),
+    sound.fileplayer.new("sfx/sword_swing"),
+}
+
+function PlaySwordSwingSFX()
+    for i = #swordSwingSFXs, 1, -1 do
+        local sfx = swordSwingSFXs[i]
+        if (not sfx:isPlaying()) then
+            sfx:setVolume(0.7, 0.7)
+            sfx:play()
+            print(i)
+            return
+        end
+    end
 end
 
 local correctHitSFX = sound.fileplayer.new("sfx/correct_hit")
@@ -20,6 +36,8 @@ function PlayCorrectHitSFX()
     if not correctHitSFX then
         return
     end
+
+    correctHitSFX:setVolume(0.5, 0.5)
 
     correctHitSFX:stop()
     correctHitSFX:play()
@@ -32,6 +50,8 @@ function PlayIncorrectHitSFX()
         return
     end
 
+    incorrectHitSFX:setVolume(0.5, 0.5)
+
     incorrectHitSFX:stop()
     incorrectHitSFX:play()
 end
@@ -42,6 +62,8 @@ function PlayGameOverSFX()
     if not gameOverSFX then
         return
     end
+
+    gameOverSFX:setVolume(0.5, 0.5)
 
     gameOverSFX:stop()
     gameOverSFX:play()

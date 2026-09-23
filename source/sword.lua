@@ -36,6 +36,7 @@ local function updateSwipeDir(degDelta)
     if (SwipeDir == 0) then
         -- Not currently swiping
         if (MinSwipeEnterSpeed <= math.abs(degSpeed)) then
+            PlaySwordSwingSFX()
             SwipeDir = Sign(degDelta)
             SwipeAllowed = true
             accumulatedSwiping = degDelta

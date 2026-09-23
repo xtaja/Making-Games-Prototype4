@@ -101,5 +101,9 @@ function playdate.update()
     if (enableDebug) then
         UpdateDebugValueSetter()
         gfx.drawTextAligned("Debug info: " .. MinSwipeEnterSpeed .. ", " .. MinSwipeSpeed, 400 - 20, 240 - 20, kTextAlignment.right)
+    
+        if (pd.buttonJustPressed(pd.kButtonB)) then
+            PlaySwordSwingSFX()
+        end
     end
 end
