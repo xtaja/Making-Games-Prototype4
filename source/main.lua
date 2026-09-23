@@ -88,8 +88,10 @@ function playdate.update()
     end
 
     if gameOver then
-        gfx.drawTextAligned("A Bug has entered the game", 200, 240 - 60, kTextAlignment.center)
-        gfx.drawTextAligned("Press A to restart", 200, 240 - 30, kTextAlignment.center)
+        gfx.clear()
+        gfx.drawTextAligned("A Bug has entered the game", 200, 80, kTextAlignment.center)
+        gfx.drawTextAligned("Bugs slashed: " .. Score, 200, 120, kTextAlignment.center)
+        gfx.drawTextAligned("Press A to restart", 200, 240 - 40, kTextAlignment.center)
     end
 
     -- if (enableDebug and gameOver) then
