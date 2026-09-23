@@ -77,12 +77,13 @@ function playdate.update()
     DrawTrail()
     DrawObstacles()
 
-    gfx.drawTextAligned("Enemies slashed: " .. Score, 30, 30, kTextAlignment.left)
+    gfx.drawTextAligned("Bugs slashed: " .. Score, 30, 30, kTextAlignment.left)
     if (HighScore ~= 0) then
         gfx.drawTextAligned("High Score: " .. HighScore, 400 - 30, 30, kTextAlignment.right)
     end
 
     if gameOver then
+        gfx.drawTextAligned("A Bug has entered the game", 200, 240 - 60, kTextAlignment.center)
         gfx.drawTextAligned("Press A to restart", 200, 240 - 30, kTextAlignment.center)
     end
 
