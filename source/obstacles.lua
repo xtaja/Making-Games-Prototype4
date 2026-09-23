@@ -24,7 +24,7 @@ function SpawnObstacleLayer3()
 		CreateObstacle()
 	elseif option == 2 then
 		CreateObstacle(angle, 1)
-		CreateObstacle(angle + DegToRad(90), -1, 10)
+		CreateObstacle(angle + DegToRad(90), -1)
 	elseif option == 3 then
 		local type = RandomType()
 		CreateObstacle(angle, type)
