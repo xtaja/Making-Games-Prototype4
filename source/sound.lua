@@ -4,6 +4,8 @@ local sound <const> = pd and pd.sound
 local swordSwingSFX = sound.fileplayer.new("sfx/sword_swing")
 local swordSliceSFX = sound.fileplayer.new("sfx/sword_slice")
 
+EnableSwordSwingSFX = false
+
 local swordSwingSFXs = {
     sound.fileplayer.new("sfx/sword_swing"),
     sound.fileplayer.new("sfx/sword_swing"),
@@ -19,6 +21,7 @@ local swordSwingSFXs = {
 }
 
 function PlaySwordSwingSFX()
+    if (not EnableSwordSwingSFX) then return end
     for i = #swordSwingSFXs, 1, -1 do
         local sfx = swordSwingSFXs[i]
         if (not sfx:isPlaying()) then

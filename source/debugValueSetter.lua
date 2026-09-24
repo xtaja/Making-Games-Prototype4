@@ -14,4 +14,7 @@ function UpdateDebugValueSetter()
     if (pd.buttonJustPressed(pd.kButtonLeft)) then
         MinSwipeSpeed -= 1
     end
+    if (pd.buttonJustPressed(pd.kButtonB)) then
+        EnableSwordSwingSFX = not EnableSwordSwingSFX
+    end
 end
