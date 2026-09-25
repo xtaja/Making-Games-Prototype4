@@ -29,6 +29,12 @@ local obstacleInterval = 50
 local animationFrame = 1
 local gameOver = false
 
+-- Change...
+local toScore = 30
+local fromObstacleInterval = 60
+local toObstacleInterval = 35
+local fromMaxSpeed = 2
+local toMaxSpeed = 3 -- 2.7
 
 local swordRotation = 0
 

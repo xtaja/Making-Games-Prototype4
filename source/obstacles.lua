@@ -9,7 +9,8 @@ local obstacles = {}
 local minRadius = 15
 local maxRadius = 20
 local minSpeed = 1.7
-local maxSpeed = 2.7
+MaxSpeed = 2.7
+local maxSideSpeedMultiplier = 1.5
 local distance = CalcDist(screenWidth, screenHeight) / 2 + 25
 local groundZeroOffSet = OffsetLength + SwordLength / 2 -- 75
 
@@ -89,10 +90,16 @@ function CreateObstacle(angle, type, delay)--(minAngle, maxAngle)
 	type = type or RandomType()
 	delay = delay or 0
 
+	local angleDeg = RadToDeg(angle)
+	local maxSideSpeed = MaxSpeed * maxSideSpeedMultiplier
+
 	local radius = math.random(minRadius, maxRadius)
 	local image0, radius = SetObstacleImage(type, radius, 1)
 	local image1, radius = SetObstacleImage(type, radius, -1)
-	local speed = minSpeed + math.random() * (maxSpeed - minSpeed)
+	local speed = minSpeed --+ math.random() * (maxSpeed - minSpeed)
+	--if ((0 <= angleDeg and angleDeg <= 30) or (150 <= angleDeg and angleDeg <= 210) or (330 <= angleDeg and angleDeg <= 390)) then
+	--	speed = minSpeed + math.random() * (maxSideSpeed - minSpeed)
+	--end
 	local delayOffset = delay * speed
 	local spawnDistance = (distance - groundZeroOffSet) * speed / minSpeed + groundZeroOffSet + delayOffset
 	--local spawnDistance = distance
@@ -153,7 +160,7 @@ function UpdateObstacles(swordRotation, swordLength, swordHalfWidth, swipeDir)
 		local dy = obstacle.y - screenHeight / 2
 		local distance = math.sqrt(dx * dx + dy * dy)
 
-		if distance <= obstacle.radius then
+		if distance <= 5 then
 			--table.remove(obstacles, i)
 			PlayGameOverSFX()
 			return true --collided with player
