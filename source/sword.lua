@@ -8,8 +8,8 @@ local playerPosX = 200
 local playerPosY = 120
 
 -- Settings
-MinSwipeEnterSpeed = 20 -- 25
-MinSwipeSpeed = 7 -- 7
+MinSwipeEnterSpeed = 40 -- 25
+MinSwipeSpeed = 14 -- 7
 --local minSwordSwipeDegSpeed = 40
 local maxSwordDegSpeed = 50
 OffsetLength = 50
