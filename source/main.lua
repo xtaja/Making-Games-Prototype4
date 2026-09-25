@@ -25,20 +25,33 @@ local playerX, playerY = 200, 120
 local playerImage = SetPlayerImage()
 
 local obstacleTimer = 25
-local obstacleInterval = 50
+local obstacleInterval = 60
 local animationFrame = 1
 local gameOver = false
 
 -- Change...
+local fromScore = 29
 local toScore = 30
 local fromObstacleInterval = 60
-local toObstacleInterval = 35
+local toObstacleInterval = 40
 local fromMaxSpeed = 2
 local toMaxSpeed = 3 -- 2.7
 
 local swordRotation = 0
 
 local enableDebug = true;
+
+local function updateFromTo()
+    local current = (Clamp(Score, fromScore, toScore) - fromScore) / (toScore - fromScore)
+    MaxSpeed = fromMaxSpeed + current * (toMaxSpeed - fromMaxSpeed)
+    obstacleInterval = fromObstacleInterval + current * (toObstacleInterval - fromObstacleInterval)
+    print(MaxSpeed, obstacleInterval)
+end
+
+function OnObstacleKill()
+    Score += 1
+    updateFromTo()
+end
 
 local function RestartGame()
     obstacleTimer = 0
@@ -47,7 +60,8 @@ local function RestartGame()
     ClearObstacles()
     ClearTrail()
     HighScore = math.max(Score, HighScore)
-    Score = 0    
+    Score = 0
+    updateFromTo()
 end
 
 -- playdate.update function is required in every project!

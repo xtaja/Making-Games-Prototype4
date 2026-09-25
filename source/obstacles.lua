@@ -9,7 +9,7 @@ local obstacles = {}
 local minRadius = 15
 local maxRadius = 20
 local minSpeed = 1.7
-MaxSpeed = 2.7
+MaxSpeed = 2
 local maxSideSpeedMultiplier = 1.5
 local distance = CalcDist(screenWidth, screenHeight) / 2 + 25
 local groundZeroOffSet = OffsetLength + SwordLength / 2 -- 75
@@ -97,9 +97,9 @@ function CreateObstacle(angle, type, delay)--(minAngle, maxAngle)
 	local image0, radius = SetObstacleImage(type, radius, 1)
 	local image1, radius = SetObstacleImage(type, radius, -1)
 	local speed = minSpeed --+ math.random() * (maxSpeed - minSpeed)
-	--if ((0 <= angleDeg and angleDeg <= 30) or (150 <= angleDeg and angleDeg <= 210) or (330 <= angleDeg and angleDeg <= 390)) then
-	--	speed = minSpeed + math.random() * (maxSideSpeed - minSpeed)
-	--end
+	if ((0 <= angleDeg and angleDeg <= 30) or (150 <= angleDeg and angleDeg <= 210) or (330 <= angleDeg and angleDeg <= 390)) then
+		speed = minSpeed + math.random() * (maxSideSpeed - minSpeed)
+	end
 	local delayOffset = delay * speed
 	local spawnDistance = (distance - groundZeroOffSet) * speed / minSpeed + groundZeroOffSet + delayOffset
 	--local spawnDistance = distance
@@ -170,7 +170,7 @@ function UpdateObstacles(swordRotation, swordLength, swordHalfWidth, swipeDir)
 				if(obstacle.type == -1 and swipeDir * flipSign == -1) or (obstacle.type == 1 and swipeDir * flipSign == 1) then
 					-- correct swipe direction, destroy obstacle
 					table.remove(obstacles, i)
-					Score += 1
+					OnObstacleKill()
 					PlayCorrectHitSFX()
 				else
 					-- incorrect swipe direction, game over
