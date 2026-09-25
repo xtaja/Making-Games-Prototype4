@@ -10,7 +10,7 @@ local minRadius = 15
 local maxRadius = 20
 local minSpeed = 1.7
 MaxSpeed = 2
-local maxSideSpeedMultiplier = 1.5
+MaxSideSpeedMultiplier = 1.1
 local distance = CalcDist(screenWidth, screenHeight) / 2 + 25
 local groundZeroOffSet = OffsetLength + SwordLength / 2 -- 75
 
@@ -91,7 +91,7 @@ function CreateObstacle(angle, type, delay)--(minAngle, maxAngle)
 	delay = delay or 0
 
 	local angleDeg = RadToDeg(angle)
-	local maxSideSpeed = MaxSpeed * maxSideSpeedMultiplier
+	local maxSideSpeed = MaxSpeed * MaxSideSpeedMultiplier
 
 	local radius = math.random(minRadius, maxRadius)
 	local image0, radius = SetObstacleImage(type, radius, 1)

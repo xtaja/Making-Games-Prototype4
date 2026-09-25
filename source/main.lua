@@ -29,13 +29,15 @@ local obstacleInterval = 60
 local animationFrame = 1
 local gameOver = false
 
--- Change...
-local fromScore = 29
+-- FromTo
+local fromScore = 5
 local toScore = 30
 local fromObstacleInterval = 60
 local toObstacleInterval = 40
 local fromMaxSpeed = 2
 local toMaxSpeed = 3 -- 2.7
+local fromMaxSideSpeedMultiplier = 1.1
+local toMaxSideSpeedMultiplier = 1.5
 
 local swordRotation = 0
 
@@ -45,7 +47,8 @@ local function updateFromTo()
     local current = (Clamp(Score, fromScore, toScore) - fromScore) / (toScore - fromScore)
     MaxSpeed = fromMaxSpeed + current * (toMaxSpeed - fromMaxSpeed)
     obstacleInterval = fromObstacleInterval + current * (toObstacleInterval - fromObstacleInterval)
-    print(MaxSpeed, obstacleInterval)
+    MaxSideSpeedMultiplier = fromMaxSideSpeedMultiplier + current * (toMaxSideSpeedMultiplier - fromMaxSideSpeedMultiplier)
+    print(MaxSpeed, obstacleInterval, MaxSideSpeedMultiplier)
 end
 
 function OnObstacleKill()
